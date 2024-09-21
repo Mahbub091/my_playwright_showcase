@@ -92,6 +92,45 @@ exports.utils = class utils {
             throw new Error(`Text does not match. Expected: "${expectedText}", but found: "${actualText}"`);
         }
     }
+
+    async validateButtonAttribute (identifier, hrefAttribute) {
+    const button = await this.page.locator(identifier);
+    await expect(button).toBeVisible();
+
+    const hrefValue = await button.getAttribute('href');
+    expect(hrefValue).toBe(hrefAttribute);
+    }
+
+    async scrollAndClick (identifier) {
+        const targetElement = this.page.locator(identifier);
+
+        await targetElement.scrollIntoViewIfNeeded();
+        await expect(targetElement).toBeVisible();
+
+        await this.page.locator(identifier).click();
+    }
+
+    async wait(time, options = {}) {
+        const { waitForSelector, waitForNetworkIdle, waitForLoadState } = options;
+    
+        // Wait for the specified time (in seconds)
+        await this.page.waitForTimeout(time * 1000);
+    
+        // Optionally wait for a specific selector to appear
+        if (waitForSelector) {
+          await this.page.waitForSelector(waitForSelector, { state: 'visible', timeout: time * 1000 });
+        }
+    
+        // Optionally wait for the network to be idle
+        if (waitForNetworkIdle) {
+          await this.page.waitForLoadState('networkidle', { timeout: time * 1000 });
+        }
+    
+        // Optionally wait for the page to reach a certain load state
+        if (waitForLoadState) {
+          await this.page.waitForLoadState(waitForLoadState, { timeout: time * 1000 });
+        }
+      }
     
 
 
