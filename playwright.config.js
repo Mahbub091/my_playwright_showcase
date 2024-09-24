@@ -1,7 +1,9 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
-  testDir: './tests',
+  testDir: './tests',  // Set the directory
+  testMatch: '**/*.spec.js',  // Use a glob pattern to match all .spec.js files
+  
 
   //reporter: 'html',
   // reporter:[
