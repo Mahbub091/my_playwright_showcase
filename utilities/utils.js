@@ -136,7 +136,25 @@ exports.utils = class utils {
       async waitForPageLoad(page, state = 'load') {
         await this.page.waitForLoadState(state);
       }
+
+                    /////////////////////////////// ////////////////////////    /////////////////////////
+
+  // Method to verify the text of a specific link
+  async verifyLinkTextByIndex(locator, index, expectedText) {
+    const selector = `${locator}:nth-of-type(${index})`;
+    const actualText = await this.page.textContent(selector);
+    if (!actualText.includes(expectedText)) {
+      throw new Error(`Text mismatch at index ${index}: expected "${expectedText}", but got "${actualText}"`);
+    }
+    console.log(`Verified text for link at index ${index}: "${actualText}" matches expected "${expectedText}"`);
+  }
+
+  // Method to verify the text of multiple links
+  async verifyLinksText(locator, expectedTexts) {
+    for (let i = 0; i < expectedTexts.length; i++) {
+      await this.verifyLinkTextByIndex(locator, i + 1, expectedTexts[i]);  // i + 1 to match nth-of-type
+    }
+  }
+}
     
 
-
-}
