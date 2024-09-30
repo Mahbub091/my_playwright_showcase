@@ -11,4 +11,4 @@ const landingPage = {
     codeGenText : `div#__docusaurus > .footer.footer--dark  .footer__links.row > div:nth-of-type(1) > .clean-list.footer__items > li:nth-of-type(1) > .footer__link-item`
 
 }
-module.exports = landingPage;
+export default landingPage;

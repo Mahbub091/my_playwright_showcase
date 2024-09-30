@@ -22,6 +22,10 @@ exports.utils = class utils {
         await this.page.locator(identifier).fill(text);
     }
 
+    async typeInputBox(identifier, text){
+        await this.page.locator(identifier).type(text);
+    }
+
     async dblClickOnElement(identifier){
         await this.page.locator(identifier).dblclick();
     }
@@ -42,7 +46,7 @@ exports.utils = class utils {
         await expect.soft(this.page.locator(identifier)).toHaveText(expectedText);
     }
 
-    async verifyToHaveVlue(identifier, inputFieldText){
+    async verifyToHaveValue(identifier, inputFieldText){
         await expect.soft(this.page.locator(identifier)).toHaveValue(inputFieldText);
     }
 
@@ -50,7 +54,7 @@ exports.utils = class utils {
         await expect.soft(this.page.locator(identifier)).toContainText(expectedText);
     }
 
-    async verifyToHaveAttrbutes(attr, value){
+    async verifyToHaveAttributes(attr, value){
         await expect.soft(this.page.locator(identifier)).toHaveAttribute(attr, value);
     }
 
@@ -113,25 +117,44 @@ exports.utils = class utils {
     async wait(time, options = {}) {
         const { waitForSelector, waitForNetworkIdle, waitForLoadState } = options;
     
-        // Wait for the specified time (in seconds)
         await this.page.waitForTimeout(time * 1000);
     
-        // Optionally wait for a specific selector to appear
         if (waitForSelector) {
           await this.page.waitForSelector(waitForSelector, { state: 'visible', timeout: time * 1000 });
         }
     
-        // Optionally wait for the network to be idle
         if (waitForNetworkIdle) {
           await this.page.waitForLoadState('networkidle', { timeout: time * 1000 });
         }
     
-        // Optionally wait for the page to reach a certain load state
+
         if (waitForLoadState) {
           await this.page.waitForLoadState(waitForLoadState, { timeout: time * 1000 });
         }
       }
+
+      async waitForPageLoad(page, state = 'load') {
+        await this.page.waitForLoadState(state);
+      }
+
+                    /////////////////////////////// ////////////////////////    /////////////////////////
+
+  // Method to verify the text of a specific link
+  async verifyLinkTextByIndex(locator, index, expectedText) {
+    const selector = `${locator}:nth-of-type(${index})`;
+    const actualText = await this.page.textContent(selector);
+    if (!actualText.includes(expectedText)) {
+      throw new Error(`Text mismatch at index ${index}: expected "${expectedText}", but got "${actualText}"`);
+    }
+    console.log(`Verified text for link at index ${index}: "${actualText}" matches expected "${expectedText}"`);
+  }
+
+  // Method to verify the text of multiple links
+  async verifyLinksText(locator, expectedTexts) {
+    for (let i = 0; i < expectedTexts.length; i++) {
+      await this.verifyLinkTextByIndex(locator, i + 1, expectedTexts[i]);  // i + 1 to match nth-of-type
+    }
+  }
+}
     
 
-
-}
