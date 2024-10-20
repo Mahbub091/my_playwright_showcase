@@ -18,13 +18,13 @@ test.describe('Validating Menu Click', () => {
     await runner.navigateTo(lambdaData.lambdaTestUrl)
   });
 
-  test.skip('Validating Navigation with URL & Title', async ({ runner }) => {
+  test('Validating Navigation with URL & Title', async ({ runner }) => {
     await runner.verifyContainsUrl(lambdaData.lambdaTestUrl);
     await runner.verifyTitle(lambdaData.pageTitle);
     await runner.waitForPageLoad();
   });
 
-  test.skip('Validating and Entering value to text input field', async ({ runner }) => {
+  test('Validating and Entering value to text input field', async ({ runner }) => {
     await runner.typeInputBox(LambdaPage.textInputField, "cameras");
     await runner.clickOnElement(LambdaPage.searchButton);
     await runner.mouseHover(LambdaPage.accountButton);
