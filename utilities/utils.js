@@ -63,7 +63,7 @@ exports.utils = class utils {
     }
 
     async verifyElementIsVisible(identifier){
-        await expect.soft(this.page.locator(identifier)).isVisible();
+        await expect.soft(this.page.locator(identifier)).toBeVisible();
     }
 
     async verifyRadioBtnChecked(identifier){
