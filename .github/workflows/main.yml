@@ -19,12 +19,12 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: |
-        npx playwright test
         npm install -D allure-commandline
+        npm run test
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: allure-reports
-        path: allure-report/
+        path: allure-reports/
         retention-days: 30
