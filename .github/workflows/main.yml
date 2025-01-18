@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright Test Suite
 on:
   [push]
 
@@ -22,9 +22,8 @@ jobs:
       run: |
         npx playwright test
         npm install -D allure-commandline
-
     - name: Generate Allure report
-      run: npx allure generate allure-results --clean -o allure-reports
+      run: npx allure generate allure-results --clean -o allure-report
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
