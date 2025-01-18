@@ -34,15 +34,14 @@ jobs:
       run: |
         npm run testpw
 
-    # Step 6: Generate Allure report
+    # Step 6: Generate Allure Report
     - name: Generate Allure Report
       run: |
         allure generate allure-results --clean -o allure-report
 
     # Step 7: Upload Allure report as a GitHub Artifact
     - name: Upload Allure Report
-      uses: actions/upload-artifact@v2
+      uses: github/actions/upload-artifact@v3
       with:
         name: allure-report
         path: allure-report
-
