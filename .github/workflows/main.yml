@@ -1,45 +1,25 @@
-name: Playwright CI/CD
-
+name: Playwright Tests
 on:
   [push]
-
+  
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-
-    # Step 2: Set up Node.js environment
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '16'
-
-    # Step 3: Install dependencies
+        node-version: lts/*
     - name: Install dependencies
-      run: |
-        npm install
-
-    # Step 4: Install Playwright and Allure dependencies
-    - name: Install Playwright and Allure
-      run: |
-        npm install playwright
-        npm install -D allure-commandline
-
-    # Step 5: Run tests with testpw (you can change this script name as per your package.json)
-    - name: Run tests with testpw
-      run: |
-        npm run testpw
-
-    # Step 6: Generate Allure Report
-    - name: Generate Allure Report
-      run: |
-        allure generate allure-results --clean -o allure-report
-
-    # Step 7: Upload Allure report as a GitHub Artifact
-    - name: Upload Allure Report
-      uses: github/actions/upload-artifact@v3
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
       with:
-        name: allure-report
-        path: allure-report
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
