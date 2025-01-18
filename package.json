@@ -6,6 +6,7 @@
     "test:codegen": "npx playwright codegen",
     "pretest": "npx playwright install && npx rimraf allure-results allure-report",
     "test": "npx playwright test || npm run posttest",
+    "testpw" : "npx playwright test",
     "test:ui": "npx playwright test --ui",
     "test:chrome": "npx playwright test --project=chromium",
     "test:debug": "npx playwright test --debug",
