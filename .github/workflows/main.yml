@@ -1,7 +1,7 @@
 name: Playwright Tests
 on:
   [push]
-  
+
 jobs:
   test:
     timeout-minutes: 60
@@ -11,15 +11,20 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: |
+        npx playwright test
+        npm install -D allure-commandline
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
-        path: playwright-report/
+        name: allure-reports
+        path: allure-report/
         retention-days: 30
