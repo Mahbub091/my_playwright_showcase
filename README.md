@@ -23,3 +23,5 @@ Inside that directory, you can run several commands:
 We suggest that you begin by typing:
 
     npx playwright test
+
+    udpate
